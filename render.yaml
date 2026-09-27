@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: credit-card-fraud-demo
+    runtime: docker
+    plan: free
+    healthCheckPath: /_stcore/health

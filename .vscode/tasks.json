@@ -1,0 +1,388 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Test: pytest",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Prepare: demo dataset and models",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"scripts.prepare_demo",
+				"--rows",
+				"20000"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run: Streamlit app",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\streamlit.exe",
+			"args": [
+				"run",
+				"app.py",
+				"--server.port",
+				"8501"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run: Streamlit app",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\streamlit.exe",
+			"args": [
+				"run",
+				"app.py",
+				"--server.port",
+				"8501"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Test: four-model training",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"tests/test_project.py::test_training_saves_four_models_and_metrics",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Test: full project suite with SVM",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Prepare: rebuild four-model demo",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"scripts.prepare_demo",
+				"--rows",
+				"20000"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Inspect dataset class counts",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-c",
+				"import pandas as pd; d=pd.read_csv('data/transactions.csv'); print(d['Class'].value_counts(dropna=False).to_string()); print('dtype:', d['Class'].dtype, 'unique:', sorted(d['Class'].dropna().unique().tolist()))"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Test: dashboard class preview",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"tests/test_project.py::test_dashboard_sample_includes_both_classes",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Test: full suite including class preview",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Test: new CSV schema adapter",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"tests/test_project.py::test_transaction_record_dataset_maps_fraud_labels_and_sets_prediction_schema",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Test: new CSV schema adapter",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"tests/test_project.py::test_transaction_record_dataset_maps_fraud_labels_and_sets_prediction_schema",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Train: updated fraud dataset",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"scripts.prepare_demo",
+				"--input",
+				"data/credit_card_fraud_dataset.csv"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Test: full project after dataset update",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Verify: updated dataset and model bundle",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-c",
+				"import pandas as pd, joblib; d=pd.read_csv('data/transactions.csv'); b=joblib.load('models/model_bundle.joblib'); print(d['Class'].value_counts().sort_index().to_dict()); print('schema=',b['input_schema']); print('source=',b['data_note']); print('best=',b['best_model']); print('metrics=',b['metrics'])"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify: updated dataset and model bundle",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-c",
+				"import pandas as pd, joblib; d=pd.read_csv(\"data/transactions.csv\"); b=joblib.load(\"models/model_bundle.joblib\"); print(d[\"Class\"].value_counts().sort_index().to_dict()); print(\"schema=\",b[\"input_schema\"]); print(\"source=\",b[\"data_note\"]); print(\"best=\",b[\"best_model\"]); print(\"metrics=\",b[\"metrics\"])"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Test: record-schema model bundle",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"tests/test_project.py::test_training_transaction_records_sets_prediction_schema",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Test: complete updated project",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Restore: train from current dataset",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"scripts.prepare_demo",
+				"--input",
+				"data/credit_card_fraud_dataset.csv"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Test: verify restored app project",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Train only from credit card dataset",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"scripts.prepare_demo",
+				"--input",
+				"data/credit_card_fraud_dataset.csv"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Restore artifacts from uploaded dataset",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"scripts.prepare_demo",
+				"--input",
+				"data/credit_card_fraud_dataset.csv"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Test: single dataset CSV setup",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Run: fresh single-CSV app check",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\streamlit.exe",
+			"args": [
+				"run",
+				"app.py",
+				"--server.port",
+				"8502"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run: fresh single-CSV app check 8503",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\streamlit.exe",
+			"args": [
+				"run",
+				"app.py",
+				"--server.port",
+				"8503"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run: fresh single-CSV app check 8504",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\streamlit.exe",
+			"args": [
+				"run",
+				"app.py",
+				"--server.port",
+				"8504"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run: Streamlit app",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\streamlit.exe",
+			"args": [
+				"run",
+				"app.py",
+				"--server.port",
+				"8501"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Retrain: grouped source importances",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"scripts.prepare_demo",
+				"--input",
+				"data/credit_card_fraud_dataset.csv"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Test: full suite for source importances",
+			"type": "shell",
+			"command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pytest",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		}
+	]
+}
